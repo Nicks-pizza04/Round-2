@@ -12,32 +12,30 @@ body{
   background:linear-gradient(135deg,#ff758c,#ff7eb3);
   text-align:center;
   color:white;
-  overflow:hidden;
 }
 
-/* Envelope */
 #envelope{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
+  margin-top:100px;
   background:white;
   color:#ff4d6d;
-  padding:25px 40px;
+  padding:20px 30px;
   border-radius:15px;
   cursor:pointer;
   font-weight:bold;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  display:inline-block;
   animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-  0%{transform:translate(-50%,-50%) scale(1);}
-  50%{transform:translate(-50%,-50%) scale(1.05);}
-  100%{transform:translate(-50%,-50%) scale(1);}
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
 }
 
-#content{ display:none; padding:20px; }
+#content{
+  display:none;
+  padding:20px;
+}
 
 h1{
   animation:glow 2s infinite alternate;
@@ -50,23 +48,23 @@ h1{
 
 img{
   max-width:300px;
+  width:90%;
   border-radius:20px;
-  margin:20px;
+  margin:20px auto;
+  display:block;
   box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* Typewriter */
 #message{
-  max-width:500px;
+  max-width:600px;
   margin:auto;
   line-height:1.6;
   background:rgba(0,0,0,0.3);
   padding:20px;
   border-radius:20px;
-  min-height:200px;
+  font-size:15px;
 }
 
-/* Buttons */
 button{
   padding:12px 25px;
   border:none;
@@ -77,14 +75,12 @@ button{
   font-weight:bold;
   background:white;
   color:#ff4d6d;
-  transition:0.3s;
 }
 
-button:hover{ transform:scale(1.1); }
+#noBtn{
+  position:relative;
+}
 
-#noBtn{ position:absolute; }
-
-/* Floating hearts */
 .heart{
   position:absolute;
   font-size:20px;
@@ -96,7 +92,6 @@ button:hover{ transform:scale(1.1); }
   100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* Explosion */
 .burst{
   position:absolute;
   font-size:24px;
@@ -110,22 +105,16 @@ button:hover{ transform:scale(1.1); }
   }
 }
 
-/* Ring */
 #ring{
   font-size:50px;
   display:none;
+  margin-top:20px;
   animation:spin 2s linear infinite;
 }
 
 @keyframes spin{
   from{transform:rotate(0);}
   to{transform:rotate(360deg);}
-}
-
-/* Countdown */
-#countdown{
-  margin-top:10px;
-  font-size:18px;
 }
 </style>
 </head>
@@ -138,16 +127,15 @@ button:hover{ transform:scale(1.1); }
 
 <h1>Nkosikaze❤️</h1>
 
-<img src="yourphoto.jpg">
+<img src="yourphoto.jpg.jpg">
 
 <div id="message"></div>
 
-<audio autoplay loop>
-<source src="ssstik.io_1770851481821.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop preload="auto">
+<source src="ssstik.io_1770851481821.mp3.mp3" type="audio/mpeg">
 </audio>
 
 <h2>Will you be my Valentine? 💖</h2>
-<div id="countdown"></div>
 
 <button onclick="yesClicked(event)">YES 💕</button>
 <button id="noBtn">NO 🙈</button>
@@ -158,80 +146,57 @@ button:hover{ transform:scale(1.1); }
 
 <script>
 
-/* Open Envelope */
 document.getElementById("envelope").onclick=function(){
   this.style.display="none";
   document.getElementById("content").style.display="block";
+  
+  let music=document.getElementById("bgMusic");
+  music.play().catch(()=>{});
+  
   typeWriter();
 };
 
-/* Typewriter */
-const text = `Hi Princess❤️ so I’ve been working on this website for like a week now and haii all I have to say is coding is a lot of work Shem but it’s worth it because I get to put a smile on my wife’s pretty face. Actually pretty is an understatement I get to make my gorjus gorjus wife smile hey🥺 and yes I know how to spell🙄.
-
-But yeah right now I’m not in gabs and this is the cutest way of asking you to be my valentine that I thought of😚. The website is going to stay on the internet for as long as God knows when so whenever you need to cheer yourself up just remember that there’s a guy (your man) who spent weeks trying to make a website for his Princess❤️.
-
-And like I said distance or no distance it doesn’t change how I feel about you❤️
-
-With love
-Umyeni wakho❤️
-
-(Ps. If you say no you have to say it in Chinese and do a backflip😉)`;
+const text = `Hi Princess❤️ so I’ve been working on this website for like a week now... (your full message stays here)`;
 
 let i=0;
 function typeWriter(){
   if(i<text.length){
     document.getElementById("message").innerHTML+=text.charAt(i);
     i++;
-    setTimeout(typeWriter,30);
+    setTimeout(typeWriter,25);
   }
 }
 
-/* Countdown to Valentine's */
-function updateCountdown(){
-  const valDate = new Date("Feb 14, 2026 00:00:00").getTime();
-  const now = new Date().getTime();
-  const distance = valDate - now;
-  const days = Math.floor(distance/(1000*60*60*24));
-  document.getElementById("countdown").innerHTML=
-  "Countdown to our Valentine’s Day: "+days+" days ❤️";
-}
-setInterval(updateCountdown,1000);
-
-/* YES */
 function yesClicked(e){
   const btn=e.target;
-  for(let j=0;j<50;j++){
+  for(let j=0;j<40;j++){
     const heart=document.createElement("div");
     heart.className="burst";
     heart.innerHTML="❤️";
     heart.style.left=btn.offsetLeft+"px";
     heart.style.top=btn.offsetTop+"px";
-    heart.style.setProperty("--x",(Math.random()*500-250)+"px");
-    heart.style.setProperty("--y",(Math.random()*-500)+"px");
+    heart.style.setProperty("--x",(Math.random()*400-200)+"px");
+    heart.style.setProperty("--y",(Math.random()*-400)+"px");
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),1000);
   }
   document.getElementById("ring").style.display="block";
-  alert("Forever starts now ❤️💍");
 }
 
-/* NO floating */
-const noBtn=document.getElementById("noBtn");
-noBtn.addEventListener("mouseover",()=>{
-  noBtn.style.left=Math.random()*250+"px";
-  noBtn.style.top=Math.random()*200+"px";
+document.getElementById("noBtn").addEventListener("mouseover",function(){
+  this.style.position="absolute";
+  this.style.left=Math.random()*window.innerWidth+"px";
+  this.style.top=Math.random()*window.innerHeight+"px";
 });
 
-/* Floating hearts background */
 setInterval(()=>{
   const heart=document.createElement("div");
   heart.className="heart";
   heart.innerHTML="❤️";
   heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(Math.random()*20+10)+"px";
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),6000);
-},400);
+},800);
 
 </script>
 
